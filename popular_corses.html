@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style/navbar.css">
+    <link rel="stylesheet" href="./style/footer.css">
+    <link rel="stylesheet" href="./style/poupular_courses.css">
+    <link rel="stylesheet" href="./style/courses.css">
+
+
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <div id="scontainer">
+        <div id="s1">
+
+            <section id="courses-header">
+                <div id="courses-header-main">
+                    <div id="courses-searchbar-div">
+                        <h1 id="courses-h1">Frontend Masters Courses</h1>
+                        <input type="search" name="" id="courses-searchbar" placeholder="Type To Search...">
+                    </div>
+                </div>
+            </section>
+
+            <section id="mini-header">
+                <div class="header-link">
+                    <a href="./courses.html">All Cources</a>
+                    <a href="./popular_corses.html">Popular Cources</a>
+                    <a href="">Learning Paths</a>
+                </div>
+            </section>
+        </div>
+        <div id="fulldata"></div>
+
+
+    </div>
+    <div id="footer-section"></div>
+
+
+</body>
+
+</html>
+<script type="module">
+    import navbar from "./components/navbar.js"
+    let header = document.getElementById("navbar")
+    header.innerHTML = navbar();
+
+    import { allPopularcourses } from "./scripts/popular_courses.js"
+
+
+
+    let container = document.getElementById("fulldata");
+
+    //api call
+    let popularcoursesData = async () => {
+        try {
+            let res = await fetch("http://localhost:2323/courses");
+
+            let data = await res.json();
+
+            console.log(data);
+
+            allPopularcourses(data, container)
+
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    popularcoursesData();
+    allPopularcourses(AllPopularcourses, container)
+
+    import footer from "./components/footer.js"
+    let footer_div = document.getElementById("footer-section")
+    footer_div.innerHTML = footer();
+
+    //Logout button remove code 
+    var btn1 = localStorage.getItem("btn")
+    let getBtn = document.getElementById("logout-btn-div")
+    getBtn.innerHTML = btn1;
+
+    document.getElementById("logout-btn").addEventListener("click", removeB);
+
+    function removeB() {
+        var element = document.getElementById("logout-btn-div");
+        element.remove(element);
+        localStorage.removeItem("btn")
+        localStorage.removeItem("loginCheck")
+        window.location.href = "index.html"
+    }
+    //Logout button remove code END
+</script>
